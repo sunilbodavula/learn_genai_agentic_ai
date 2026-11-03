@@ -42,3 +42,26 @@ by the predefined mappings.
 - [x] Learned the basic idea behind LLM text generation
 - [x] Practiced a simplified generation loop
 - [ ] Connected to a real AI model
+
+## Day 3: Understanding Context
+
+### What I learned
+- Context provides information that helps an AI model answer a question.
+- The same question can lead to different responses when the context changes.
+- A context window limits the amount of information a model can process.
+- Context can include instructions, conversation history,
+  retrieved information, and the current question.
+- AI applications should verify important facts using trusted systems.
+
+### Hands-on practice
+Created a JavaScript function to combine customer order
+information and a question into a prompt.
+
+Changed the order status to observe how the available
+context changes.
+
+### Progress
+- [x] Learned the basic concept of context
+- [x] Built a prompt-preparation function
+- [x] Experimented with changing context
+- [ ] Connected to a real AI model
