@@ -65,3 +65,25 @@ context changes.
 - [x] Built a prompt-preparation function
 - [x] Experimented with changing context
 - [ ] Connected to a real AI model
+
+## Day 4: Prompt Engineering Fundamentals
+
+### What I learned
+- Instructions tell the model how to respond.
+- Context provides relevant information.
+- Tasks specify what the model should do.
+- Changing instructions can influence the response.
+- Prompts can request structured output.
+- Important information should be verified using trusted systems.
+
+### Hands-on practice
+Created a structured prompt builder using JavaScript.
+
+Experimented with different instructions while
+keeping the customer information and task unchanged.
+
+### Progress
+- [x] Understood the basic idea of prompt engineering
+- [x] Separated instructions, context, and task
+- [x] Experimented with different output requirements
+- [ ] Connected to a real AI model
