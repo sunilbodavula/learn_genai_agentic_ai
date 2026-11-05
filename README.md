@@ -87,3 +87,27 @@ keeping the customer information and task unchanged.
 - [x] Separated instructions, context, and task
 - [x] Experimented with different output requirements
 - [ ] Connected to a real AI model
+
+## Day 5: Understanding Tokens
+
+### What I learned
+- Tokens are the units of text processed by LLMs.
+- A token can represent a complete word or part of a word.
+- One word does not necessarily equal one token.
+- More input information generally means more input tokens.
+- Token consumption can affect API cost and latency.
+- Context windows limit the information a model can process.
+- Relevant context is better than unnecessary information.
+
+### Hands-on practice
+Created a JavaScript token usage estimator
+using an approximate characters-per-token formula.
+
+Experimented with adding and removing conversation history.
+
+### Progress
+- [x] Understood the basic concept of tokens
+- [x] Learned why token usage matters
+- [x] Created an approximate token estimator
+- [ ] Used an actual model tokenizer
+- [ ] Connected to a real AI model
