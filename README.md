@@ -111,3 +111,24 @@ Experimented with adding and removing conversation history.
 - [x] Created an approximate token estimator
 - [ ] Used an actual model tokenizer
 - [ ] Connected to a real AI model
+
+## Day 6: Understanding Temperature
+
+### What I learned
+- Temperature influences token-selection probabilities.
+- Lower temperature generally produces more predictable responses.
+- Higher temperature generally produces more varied responses.
+- Temperature does not guarantee factual correctness.
+- Temperature is useful to tune based on the application requirement.
+
+### Hands-on practice
+Created a JavaScript simulation of temperature-based
+probability adjustment and token selection.
+
+Experimented with temperatures 0.5, 1, and 2.
+
+### Progress
+- [x] Understood the basic concept of temperature
+- [x] Learned how temperature affects probabilities
+- [x] Simulated token selection using JavaScript
+- [ ] Experimented with temperature using a real LLM
