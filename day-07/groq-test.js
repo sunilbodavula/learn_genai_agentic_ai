@@ -7,6 +7,13 @@ const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
 });
 
+const conversationHistory = [
+  {
+    role: "system",
+    content: "You are a helpful assistant. Explain technical concepts simply.",
+  },
+];
+
 const rl = createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -37,11 +44,7 @@ async function main() {
         const completion = await groq.chat.completions.create({
           model: process.env.GROQ_MODEL,
           messages: [
-            {
-              role: "system",
-              content:
-                "You are a helpful assistant. Explain technical concepts simply.",
-            },
+            ...conversationHistory,
             {
               role: "user",
               content: userQuestion,
@@ -53,6 +56,16 @@ async function main() {
         });
 
         const answer = completion.choices[0].message.content;
+
+        conversationHistory.push({
+          role: "user",
+          content: userQuestion,
+        });
+
+        conversationHistory.push({
+          role: "assistant",
+          content: answer || "No visible response received.",
+        });
 
         console.log("\nAI Response:\n");
         console.log(answer || "No visible response received.");

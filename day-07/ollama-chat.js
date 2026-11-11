@@ -7,6 +7,7 @@ const rl = readline.createInterface({
 });
 
 const model = "llama3.2:3b";
+const conversationHistory = [];
 
 async function main(){
     console.log("Ollama Chat Application");
@@ -36,6 +37,7 @@ async function main(){
                     body: JSON.stringify({
                         model: model,
                         messages: [
+                            ...conversationHistory,
                             {
                                 role: "user",
                                 content: question,
@@ -51,6 +53,16 @@ async function main(){
             }
 
             const data = await response.json();
+
+            conversationHistory.push({
+                role: "user",
+                content: question,
+            });
+
+            conversationHistory.push({
+                role: "assistant",
+                content: data.message.content,
+            });
 
             console.log("\nAI:", data.message.content, "\n");
         }catch(error){
