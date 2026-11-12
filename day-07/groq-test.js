@@ -10,7 +10,7 @@ const groq = new Groq({
 const conversationHistory = [
   {
     role: "system",
-    content: "You are a helpful assistant. Explain technical concepts simply.",
+    content: "You are a helpful assistant. Explain technical concepts simply and keep answers within 2 - 3 lines.",
   },
 ];
 
