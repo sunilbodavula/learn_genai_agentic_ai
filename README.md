@@ -132,3 +132,65 @@ Experimented with temperatures 0.5, 1, and 2.
 - [x] Learned how temperature affects probabilities
 - [x] Simulated token selection using JavaScript
 - [ ] Experimented with temperature using a real LLM
+
+## Learning Progress
+
+### Day 07 – Conversation History with Ollama and Groq
+
+**Topics Covered:**
+- Integrated Ollama and Groq APIs with Node.js.
+- Understood how LLM APIs process user messages.
+- Implemented conversation history to maintain context across multiple interactions.
+- Learned how to maintain message history using JavaScript arrays.
+- Understood the roles of `system`, `user`, and `assistant` messages.
+
+**Hands-on Implementation:**
+- Updated `ollama-chat.js` to support conversation history.
+- Updated `groq-test.js` to support conversation history.
+- Tested multiple follow-up questions to verify that the AI could remember previous messages within the same conversation.
+
+**Key Learning:**
+Conversation history allows an LLM application to maintain context across multiple interactions by sending previous messages along with the latest user question.
+
+### Day 08 – Sliding Window Conversation History
+
+**Topics Covered:**
+- Understood why continuously maintaining the entire conversation history can increase token consumption.
+- Learned about sliding window conversation management.
+- Explored how to retain recent conversation turns while removing older messages.
+- Understood the importance of preserving the system prompt.
+
+**Hands-on Implementation:**
+- Created `groq-history-window.js`.
+- Implemented a sliding window using `MAX_TURNS`.
+- Configured the application to retain the latest three conversation turns.
+- Preserved the system message while removing older conversation messages.
+- Tested multiple questions to verify that older messages were removed as the conversation grew.
+
+**Key Learning:**
+Sliding window conversation management helps control the amount of conversation history sent to an LLM while retaining recent context.
+
+### Day 09 – Token Estimation and Token Budget Management
+
+**Topics Covered:**
+- Understood what tokens are and why they matter in LLM applications.
+- Learned the difference between input tokens, output tokens, and total tokens.
+- Explored approximate token estimation using character length.
+- Understood how token budgets help control the context sent to an LLM.
+- Compared estimated token usage with actual token usage reported by Groq.
+
+**Hands-on Implementation:**
+- Created `groq-token-budget.js`.
+- Implemented `estimateTokens()` to estimate tokens from text length.
+- Implemented `estimateMessagesTokens()` to estimate tokens across multiple messages.
+- Configured `MAX_INPUT_TOKENS` to control the estimated input token budget.
+- Implemented `buildMessages()` to select recent conversation turns based on the available estimated token budget.
+- Preserved the system prompt and current user question.
+- Retrieved actual token usage from Groq's API response using `completion.usage`.
+- Compared estimated input tokens with actual input tokens.
+
+**Key Learning:**
+Token budget management helps control how much conversation context is sent to an LLM. Character-based token estimation is approximate and can differ from the actual tokenizer used by the model.
+
+**Important Observation:**
+The estimated input token count was lower than the actual input token count during testing. This demonstrated why approximate token estimation should not be treated as an exact measurement.
