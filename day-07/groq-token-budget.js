@@ -131,6 +131,12 @@ async function main() {
             usage?.total_tokens
         );
 
+        console.log("Messages sent:", messages.length);
+        console.log(
+            "Previous turns included:",
+            (messages.length - 2) / 2
+        );
+
         conversationHistory.push({
           role: "user",
           content: userQuestion,

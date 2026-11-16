@@ -194,3 +194,41 @@ Token budget management helps control how much conversation context is sent to a
 
 **Important Observation:**
 The estimated input token count was lower than the actual input token count during testing. This demonstrated why approximate token estimation should not be treated as an exact measurement.
+
+## Day 10 – Conversation Summarization and Memory Management
+
+### Topics Covered
+- Understanding conversation summarization and memory management.
+- Generating conversation summaries using the Groq API.
+- Maintaining an existing summary and updating it with new messages.
+- Triggering summarization after a configured number of conversation turns.
+- Removing summarized messages while retaining recent conversation history.
+- Including the generated summary in future AI requests.
+- Managing token budgets while combining summaries and recent messages.
+- Testing whether the AI can recall information from summarized conversations.
+
+### Practical Implementation
+Created `groq-conversation-summary.js` with:
+- `summarizeConversation()` – generates and updates conversation summaries.
+- `manageConversationSummary()` – manages conversation history and triggers summarization.
+- `estimateTokens()` – estimates token usage.
+- `estimateMessagesTokens()` – estimates tokens across messages.
+- `buildMessages()` – combines the system prompt, summary, recent history, and current question.
+
+### Testing Results
+- Successfully tested conversation summarization after four conversation turns.
+- Verified that older messages were summarized and removed from active history.
+- Verified that recent conversation messages were retained.
+- Successfully tested memory recall using a fifth question.
+- Confirmed that the AI could recall learning technologies and the user's learning goal.
+
+### Key Learnings
+- Keeping every conversation message increases token consumption.
+- Summarization helps preserve important context while reducing conversation history.
+- Recent messages and summarized context can work together to maintain conversational continuity.
+- Token estimation is approximate and may differ from actual API token usage.
+
+### Files Created
+- `groq-conversation-summary.js`
+
+**Status:** Completed – Day 10
