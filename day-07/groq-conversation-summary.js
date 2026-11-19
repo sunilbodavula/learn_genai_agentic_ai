@@ -15,24 +15,44 @@ async function summarizeConversation(messages) {
       {
         role: "system",
         content: `
-          You are a conversation summarization assistant.
+          You are a conversation memory manager.
+
+          Your task is to create or update a concise summary
+          that will help an AI assistant remember important
+          information from previous conversations.
 
           You will receive:
           1. An existing conversation summary, if available.
           2. New conversation messages.
 
-          Combine both into one updated summary.
+          Combine the existing summary and new messages
+          into one updated summary.
 
-          Summarize the conversation while preserving:
-          - Important facts
-          - User preferences 
-          - Problems discussed
-          - Desicions made
-          - Relevant context for future questions
+          Organize the summary into these sections:
 
-          Keep the summary concise and clear.
-          Do not invent information.
-          Do not discard important information from the existing summary.
+          1. User Information
+            - Name and relevant background.
+
+          2. Technologies and Skills
+            - Technologies the user is learning or using.
+
+          3. Learning Goals
+            - Explicit goals stated by the user.
+
+          4. User Preferences
+            - Preferred explanation style and learning approach.
+
+          5. Important Decisions and Progress
+            - Decisions, completed tasks, and current progress.
+
+          Important rules:
+          - Prioritize information explicitly provided by the user.
+          - Preserve important details from the existing summary.
+          - Do not confuse assistant suggestions with user goals.
+          - Do not invent missing information.
+          - Do not mark a section as unspecified if the information
+            appears in either the existing summary or new messages.
+          - Keep the summary concise but sufficiently detailed.
         `
       },
       {
@@ -64,7 +84,7 @@ async function manageConversationSummary(){
 
   console.log("\nConversation limit reached.");
 
-  const turnsToSummarize = previousMessages.slice(0, 4);
+  const turnsToSummarize = previousMessages.slice(0, 8);
 
   const updatedSummary = await summarizeConversation(
     turnsToSummarize
@@ -72,25 +92,35 @@ async function manageConversationSummary(){
 
   conversationSummary = updatedSummary;
 
-  conversationHistory.splice(1, 4);
+  console.log("\nUpdated Conversation Summary:");
+  console.log(conversationSummary);
+
+  conversationHistory.splice(1, 8);
 
   console.log("\nConversation summary updated.");
-  console.log("Recent conversation history retained.");
+  console.log("Older conversation messages compacted into summary.");
 }
 
 const conversationHistory = [
   {
-    role: "system",
-    content: "You are a helpful assistant. Explain technical concepts simply and keep answers within 2 - 3 lines.",
-  },
+  role: "system",
+  content: `
+    You are a helpful technical learning assistant.
+
+    Explain technical concepts in simple language.
+    Prefer practical examples when explaining concepts.
+    Break complex topics into small, manageable steps.
+    Keep responses concise unless more detail is required.
+    Do not assume information that the user has not provided.
+  `,
+}
 ];
 
 let conversationSummary = "";
 
 const SUMMARY_TRIGGER_TURNS = 4;
 
-const MAX_TURNS = 10;
-const MAX_INPUT_TOKENS = 180;
+const MAX_INPUT_TOKENS = 1000;
 
 function estimateTokens(text){
   return Math.ceil(text.length / 4);
@@ -131,7 +161,7 @@ function buildMessages(userQuestion){
     estimatedTokens += estimateMessagesTokens([summaryMessage]);
   };
 
-  if(estimateTokens > MAX_INPUT_TOKENS){
+  if(estimatedTokens > MAX_INPUT_TOKENS){
     throw new Error(
       "System prompt, summary and user question exceed the token budget."
     );
@@ -225,10 +255,11 @@ async function main() {
         );
 
         console.log("Messages sent:", messages.length);
-        console.log(
-            "Previous turns included:",
-            (messages.length - 2) / 2
-        );
+
+        const previousTurnsIncluded =
+          messages.filter(message => message.role === "user").length - 1;
+          
+        console.log("Previous turns included:", previousTurnsIncluded);
 
         conversationHistory.push({
           role: "user",
