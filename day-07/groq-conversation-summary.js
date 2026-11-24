@@ -7,6 +7,7 @@ const groq = new Groq({
 });
 
 async function summarizeConversation(messages) {
+  throw new Error("Simulated summarization failure");
   console.log("\nGenerating conversation summary");
 
   const completion = await groq.chat.completions.create({
@@ -73,6 +74,26 @@ async function summarizeConversation(messages) {
   return summary;
 }
 
+function validateSummary(summary){
+  if(typeof summary !== "string"){
+    throw new TypeError("Summary must be a string.");
+  }
+
+  const cleanedSummary = summary.trim();
+
+  if(cleanedSummary.length === 0){
+    throw new Error("Generated summary is empty.");
+  }
+
+  const MAX_SUMMARY_CHARS = 2000;
+
+  if(cleanedSummary.length > MAX_SUMMARY_CHARS){
+    throw new Error("Generated Summary exceeds the allowed length.");
+  }
+
+  return cleanedSummary;
+}
+
 async function manageConversationSummary(){
   const previousMessages = conversationHistory.slice(1);
 
@@ -86,19 +107,27 @@ async function manageConversationSummary(){
 
   const turnsToSummarize = previousMessages.slice(0, 8);
 
-  const updatedSummary = await summarizeConversation(
-    turnsToSummarize
-  );
+  try{
+    const rawSummary = await summarizeConversation(
+      turnsToSummarize
+    );
 
-  conversationSummary = updatedSummary;
+    const updatedSummary = validateSummary(rawSummary);
 
-  console.log("\nUpdated Conversation Summary:");
-  console.log(conversationSummary);
+    conversationSummary = updatedSummary;
 
-  conversationHistory.splice(1, 8);
+    console.log("\nUpdated Conversation Summary:");
+    console.log(conversationSummary);
 
-  console.log("\nConversation summary updated.");
-  console.log("Older conversation messages compacted into summary.");
+    conversationHistory.splice(1, 8);
+
+    console.log("\nConversation summary updated.");
+    console.log("Older conversation messages compacted into summary.");
+  }catch(error){
+    console.error("\nMemory update failed:", error.message);
+
+    console.log("Existing summary and conversation history retained.");
+  }
 }
 
 const conversationHistory = [
